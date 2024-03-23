@@ -5,6 +5,7 @@ import com.example.WorkMate.entity.Employee;
 import com.example.WorkMate.repo.EmployeeRepo;
 import com.example.WorkMate.util.VarList;
 import jakarta.transaction.Transactional;
+import org.aspectj.weaver.ast.Var;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,14 @@ public class EmployeeService {
             employeeRepo.save(modelMapper.map(employeeDTO, Employee.class));
             return VarList.RSP_SUCESS;
         }
+    }
 
+    public String updateEmployee(EmployeeDTO employeeDTO){
+        if(employeeRepo.existsById(employeeDTO.getEmpId())){
+            employeeRepo.save(modelMapper.map(employeeDTO,Employee.class));
+            return VarList.RSP_SUCESS;
+        }else {
+            return VarList.RSP_NO_DATA_FOUND;
+        }
     }
 }
