@@ -95,6 +95,30 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/searchEmployee/{empId}")
+    public ResponseEntity searchEmployee(@PathVariable int empId){
+        try{
+            EmployeeDTO employeeDTO = employeeService.searchEmployee(empId);
+            if (employeeDTO != null){
+                responceDTO.setCode(VarList.RSP_SUCESS);
+                responceDTO.setMessage("Sucess");
+                responceDTO.setContent(employeeDTO);
+                return new ResponseEntity(responceDTO,HttpStatus.ACCEPTED);
+            }else{
+                responceDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responceDTO.setMessage("No Employee Available for this Employee ID");
+                responceDTO.setContent(null);
+                return new ResponseEntity(responceDTO,HttpStatus.BAD_REQUEST);
+            }
+
+        }catch(Exception e){
+            responceDTO.setCode(VarList.RSP_ERROR);
+            responceDTO.setMessage(e.getMessage());
+            responceDTO.setContent(e);
+            return new ResponseEntity(responceDTO,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
 
